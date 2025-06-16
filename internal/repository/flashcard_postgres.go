@@ -7,16 +7,16 @@ import (
 	"github.com/J-V-S-C/flashCards-go/internal/models"
 )
 
-type FlashCardPostgres struct {
+type FlashcardPostgres struct {
 	db *sql.DB
 }
 
-func NewFlashcardPostgres(db *sql.DB) *FlashCardPostgres {
-	return &FlashCardPostgres{db: db}
+func NewFlashcardPostgres(db *sql.DB) *FlashcardPostgres {
+	return &FlashcardPostgres{db: db}
 }
 
 // receiver is equivalent to "this"
-func (receiver *FlashCardPostgres) AddFlashcard(flashcard models.Flashcard) (int, error) {
+func (receiver *FlashcardPostgres) AddFlashcard(flashcard models.Flashcard) (int, error) {
 	var flashcardId int
 
 	if flashcard.Name == "" && flashcard.DeckId <= 0 {
@@ -33,7 +33,7 @@ func (receiver *FlashCardPostgres) AddFlashcard(flashcard models.Flashcard) (int
 	return flashcardId, nil
 }
 
-func (receiver *FlashCardPostgres) GetAllFlashcards() ([]models.Flashcard, error) {
+func (receiver *FlashcardPostgres) GetAllFlashcards() ([]models.Flashcard, error) {
 	query := `SELECT id, name, deck_id, message, next_review_at, ease_factor`
 
 	res, err := receiver.db.Query(query)
@@ -58,7 +58,7 @@ func (receiver *FlashCardPostgres) GetAllFlashcards() ([]models.Flashcard, error
 	return selectedFlashcard, nil
 }
 
-func (receiver *FlashCardPostgres) GetById(flashcardId int) (models.Flashcard, error) {
+func (receiver *FlashcardPostgres) GetById(flashcardId int) (models.Flashcard, error) {
 	flashcard := models.Flashcard{}
 
 	query := `SELECT id, name, deck_id, message, next_review_at FROM flashcard WHERE id=$1`
@@ -70,7 +70,7 @@ func (receiver *FlashCardPostgres) GetById(flashcardId int) (models.Flashcard, e
 	return flashcard, nil
 }
 
-func (receiver *FlashCardPostgres) UpdateFlashcard(newFlashcard models.Flashcard, flashcardId int) error {
+func (receiver *FlashcardPostgres) UpdateFlashcard(newFlashcard models.Flashcard, flashcardId int) error {
 	var scannerId int
 	query := `SELECT id FROM flashcard WHERE id=$1`
 	err := receiver.db.QueryRow(query, flashcardId).Scan(&scannerId)
@@ -92,7 +92,7 @@ func (receiver *FlashCardPostgres) UpdateFlashcard(newFlashcard models.Flashcard
 
 }
 
-func (receiver *FlashCardPostgres) DeleteFlashcard(flashcardId int) error {
+func (receiver *FlashcardPostgres) DeleteFlashcard(flashcardId int) error {
 	var scannerId int
 	query := `SELECT id FROM flashcard WHERE id=$1`
 	err := receiver.db.QueryRow(query, flashcardId).Scan(&scannerId)
