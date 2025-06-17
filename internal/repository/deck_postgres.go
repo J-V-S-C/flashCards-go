@@ -30,3 +30,26 @@ func (receiver *deckPostgres) AddDeck(deck models.Deck) (int, error) {
 	}
 	return deckId, nil
 }
+
+func (receiver *deckPostgres) GetAllDecks() ([]models.Deck, error) {
+	query := `SELECT id, name, total_cards, next_review_at FROM deck`
+	res, err := receiver.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer res.Close()
+
+	selectedDeck := []models.Deck{}
+
+	for res.Next() {
+		deck := models.Deck{}
+		err := res.Scan(&deck.Id, &deck.Name, &deck.NextReviewAt, &deck.TotalCards)
+		if err != nil {
+			return nil, err
+		}
+
+		selectedDeck = append(selectedDeck, deck)
+	}
+	return selectedDeck, nil
+}

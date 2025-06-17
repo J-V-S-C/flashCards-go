@@ -34,7 +34,7 @@ func (receiver *FlashcardPostgres) AddFlashcard(flashcard models.Flashcard) (int
 }
 
 func (receiver *FlashcardPostgres) GetAllFlashcards() ([]models.Flashcard, error) {
-	query := `SELECT id, name, deck_id, message, next_review_at, ease_factor`
+	query := `SELECT id, name, deck_id, message, next_review_at, ease_factor FROM flashcard`
 
 	res, err := receiver.db.Query(query)
 	if err != nil {
