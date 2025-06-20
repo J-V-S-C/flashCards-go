@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"os"
 )
 
 type Config struct {
@@ -16,7 +17,14 @@ type Config struct {
 }
 
 func NewDB(cfg Config) (*sql.DB, error) {
-	db, err := sql.Open("pkg", fmt.Sprintf("user=%v password=%v host=%v port=%v database=%v sslmode=disable", cfg.Username, cfg.Password, cfg.Host, cfg.Port, cfg.DBName))
+	db, err := sql.Open("postgres", fmt.Sprintf(
+		"user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASS"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_NAME"),
+	))
 	if err != nil {
 		errMessage := fmt.Sprintf("Error opening DB connetion: %v", err)
 		return nil, errors.New(errMessage)

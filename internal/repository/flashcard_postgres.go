@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/J-V-S-C/flashCards-go/internal/models"
+	"github.com/J-V-S-C/flashCards-go/models"
 )
 
 type FlashcardPostgres struct {
@@ -33,7 +33,7 @@ func (receiver *FlashcardPostgres) AddFlashcard(flashcard models.Flashcard) (int
 	return flashcardId, nil
 }
 
-func (receiver *FlashcardPostgres) GetAllFlashcards() ([]models.Flashcard, error) {
+func (receiver *FlashcardPostgres) GetAll() ([]models.Flashcard, error) {
 	query := `SELECT id, name, deck_id, message, next_review_at, ease_factor FROM flashcard`
 
 	res, err := receiver.db.Query(query)
@@ -71,21 +71,22 @@ func (receiver *FlashcardPostgres) GetById(flashcardId int) (models.Flashcard, e
 }
 
 func (receiver *FlashcardPostgres) UpdateFlashcard(newFlashcard models.Flashcard, flashcardId int) error {
-	var scannerId int
-	query := `SELECT id FROM flashcard WHERE id=$1`
-	err := receiver.db.QueryRow(query, flashcardId).Scan(&scannerId)
-	if err != nil {
-		return err
-	}
 
-	if newFlashcard.Name == "" && newFlashcard.DeckId <= 0 {
+	if newFlashcard.Name == "" || newFlashcard.DeckId <= 0 {
 		return errors.New("please provide valid flashcard name from a valid deck")
 	}
 
-	query = `UPDATE flashcard SET name=$1, deck_id=$2, message=$3, next_review_at=$4, ease_factor=$5 WHERE id=$6`
-	_, err = receiver.db.Exec(query, newFlashcard.Name, newFlashcard.DeckId, newFlashcard.Message, newFlashcard.NextReviewAt, newFlashcard.EaseFactor, flashcardId)
+	query := `UPDATE flashcard SET name=$1, deck_id=$2, message=$3, next_review_at=$4, ease_factor=$5 WHERE id=$6`
+	res, err := receiver.db.Exec(query, newFlashcard.Name, newFlashcard.DeckId, newFlashcard.Message, newFlashcard.NextReviewAt, newFlashcard.EaseFactor, flashcardId)
 	if err != nil {
 		return err
+	}
+	rows, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if rows == 0 {
+		return errors.New("Flashcard not found")
 	}
 
 	return nil
@@ -93,17 +94,17 @@ func (receiver *FlashcardPostgres) UpdateFlashcard(newFlashcard models.Flashcard
 }
 
 func (receiver *FlashcardPostgres) DeleteFlashcard(flashcardId int) error {
-	var scannerId int
-	query := `SELECT id FROM flashcard WHERE id=$1`
-	err := receiver.db.QueryRow(query, flashcardId).Scan(&scannerId)
+	query := `DELETE FROM flashcard WHERE id=$1`
+	res, err := receiver.db.Exec(query, flashcardId)
 	if err != nil {
 		return err
 	}
-
-	query = `DELETE FROM flashcard WHERE id=$1`
-	_, err = receiver.db.Exec(query, flashcardId)
+	rows, err := res.RowsAffected()
 	if err != nil {
 		return err
+	}
+	if rows == 0 {
+		return errors.New("Flashcard not found")
 	}
 	return nil
 }

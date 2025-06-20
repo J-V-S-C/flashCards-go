@@ -5,19 +5,8 @@ import (
 	"net/http"
 )
 
-func NewRouter() http.Handler {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", indexHandler)
-	mux.HandleFunc("/api/data", apiDataHandler)
-	return mux
-}
-
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Welcome to our page")
-
-}
-
-func apiDataHandler(w http.ResponseWriter, r *http.Request) {
-	data := "Data from api"
-	fmt.Fprintln(w, data)
+func (h *Handler) RegisterRoutes() *http.ServeMux {
+	r := http.NewServeMux()
+	r.HandleFunc("POST /")
+	r.HandleFunc("GET /")
 }
