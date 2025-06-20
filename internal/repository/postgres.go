@@ -16,7 +16,7 @@ type Config struct {
 	SSLMode  string
 }
 
-func NewDB(cfg Config) (*sql.DB, error) {
+func NewDB() (*sql.DB, error) {
 	db, err := sql.Open("postgres", fmt.Sprintf(
 		"user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
 		os.Getenv("DB_USER"),
@@ -26,7 +26,7 @@ func NewDB(cfg Config) (*sql.DB, error) {
 		os.Getenv("DB_NAME"),
 	))
 	if err != nil {
-		errMessage := fmt.Sprintf("Error opening DB connetion: %v", err)
+		errMessage := fmt.Sprintf("Error opening DB connection: %v", err)
 		return nil, errors.New(errMessage)
 	}
 

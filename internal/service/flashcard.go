@@ -1,15 +1,15 @@
 package service
 
 import (
-	"github.com/J-V-S-C/flashCards-go/internal/repository"
+	"github.com/J-V-S-C/flashCards-go/internal/contracts"
 	"github.com/J-V-S-C/flashCards-go/models"
 )
 
 type FlashcardService struct {
-	repo repository.Flashcard
+	repo contracts.Flashcard
 }
 
-func NewFlashcardListService(repo repository.Flashcard) *FlashcardService {
+func NewFlashcardListService(repo contracts.Flashcard) *FlashcardService {
 	return &FlashcardService{repo: repo}
 }
 

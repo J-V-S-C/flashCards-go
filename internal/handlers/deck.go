@@ -8,48 +8,48 @@ import (
 	"github.com/J-V-S-C/flashCards-go/utils"
 )
 
-func (h *FlashcardHandler) addFlashcard(w http.ResponseWriter, r *http.Request) {
-	flashcard, err := utils.DecodeFlashcardJSON(r)
+func (h *DeckHandler) addDeck(w http.ResponseWriter, r *http.Request) {
+	deck, err := utils.DecodeDeckJSON(r)
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	id, err := h.services.AddFlashcard(flashcard)
+	id, err := h.services.AddDeck(deck)
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusInternalServerError)
 		return
 	}
-	// By default "id" is a zero value, but we need to show the user what the sql "id" of updated flashcard is
-	flashcard.Id = id
-	utils.WriteJSON(w, flashcard, http.StatusCreated)
+	// By default "id" is a zero value, but we need to show the user what the sql "id" of updated Deck is
+	deck.Id = id
+	utils.WriteJSON(w, deck, http.StatusCreated)
 }
 
-func (h *FlashcardHandler) getAll(w http.ResponseWriter, r *http.Request) {
-	flashcards, err := h.services.GetAll()
+func (h *DeckHandler) getAll(w http.ResponseWriter, r *http.Request) {
+	decks, err := h.services.GetAll()
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusInternalServerError)
 		return
 	}
-	utils.WriteJSON(w, flashcards, http.StatusOK)
+	utils.WriteJSON(w, decks, http.StatusOK)
 }
 
-func (h *FlashcardHandler) getById(w http.ResponseWriter, r *http.Request) {
+func (h *DeckHandler) getById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusBadRequest)
 		return
 	}
 
-	flashcard, err := h.services.GetById(id)
+	deck, err := h.services.GetById(id)
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusInternalServerError)
 		return
 	}
-	utils.WriteJSON(w, flashcard, http.StatusOK)
+	utils.WriteJSON(w, deck, http.StatusOK)
 }
 
-func (h *FlashcardHandler) UpdateFlashcard(w http.ResponseWriter, r *http.Request) {
+func (h *DeckHandler) UpdateDeck(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
@@ -57,28 +57,29 @@ func (h *FlashcardHandler) UpdateFlashcard(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	newFlashcard, err := utils.DecodeFlashcardJSON(r)
+	newDeck, err := utils.DecodeDeckJSON(r)
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	err = h.services.UpdateFlashcard(newFlashcard, id)
+	err = h.services.UpdateDeck(newDeck, id)
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusInternalServerError)
 		return
 	}
-	utils.WriteJSON(w, newFlashcard, http.StatusOK)
+	newDeck.Id = id
+	utils.WriteJSON(w, newDeck, http.StatusOK)
 }
 
-func (h *FlashcardHandler) DeleteFlashcard(w http.ResponseWriter, r *http.Request) {
+func (h *DeckHandler) DeleteDeck(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusBadRequest)
 		return
 	}
 
-	err = h.services.DeleteFlashcard(id)
+	err = h.services.DeleteDeck(id)
 	if err != nil {
 		utils.RespondWithError(w, err, http.StatusInternalServerError)
 		return

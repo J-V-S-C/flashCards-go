@@ -1,15 +1,15 @@
 package service
 
 import (
-	"github.com/J-V-S-C/flashCards-go/internal/repository"
+	"github.com/J-V-S-C/flashCards-go/internal/contracts"
 	"github.com/J-V-S-C/flashCards-go/models"
 )
 
 type DeckService struct {
-	repo repository.Deck
+	repo contracts.Deck
 }
 
-func NewDeckListService(repo repository.Deck) *DeckService {
+func NewDeckListService(repo contracts.Deck) *DeckService {
 	return &DeckService{repo: repo}
 }
 
