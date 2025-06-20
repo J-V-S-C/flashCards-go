@@ -61,7 +61,7 @@ func (receiver *FlashcardPostgres) GetAll() ([]models.Flashcard, error) {
 func (receiver *FlashcardPostgres) GetById(flashcardId int) (models.Flashcard, error) {
 	flashcard := models.Flashcard{}
 
-	query := `SELECT id, name, deck_id, message, next_review_at FROM flashcard WHERE id=$1`
+	query := `SELECT id, name, deck_id, message, next_review_at, ease_factor FROM flashcard WHERE id=$1`
 	err := receiver.db.QueryRow(query, flashcardId).Scan(&flashcard.Id, &flashcard.Name, &flashcard.DeckId, &flashcard.Message, &flashcard.NextReviewAt, &flashcard.EaseFactor)
 	if err != nil {
 		return models.Flashcard{}, err

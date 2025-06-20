@@ -48,7 +48,7 @@ func (h *DeckHandler) InitDeckRoutes() http.Handler {
 
 func (h *Handler) InitRoutes() http.Handler {
 	r := http.NewServeMux()
-	r.Handle("/flashcards/", h.Flashcard.InitFlashcardRoutes())
-	r.Handle("/decks/", h.Deck.InitDeckRoutes())
+	r.Handle("/flashcards/", http.StripPrefix("/flashcards", h.Flashcard.InitFlashcardRoutes()))
+	r.Handle("/decks/", http.StripPrefix("/decks", h.Deck.InitDeckRoutes()))
 	return r
 }
