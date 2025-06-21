@@ -2,17 +2,26 @@ package main
 
 import (
 	"fmt"
-	"github.com/joho/godotenv" // add isto
 	"log"
 	"net/http"
 
+	"github.com/J-V-S-C/flashCards-go/cmd/flashcards/docs"
+	_ "github.com/J-V-S-C/flashCards-go/cmd/flashcards/docs"
 	"github.com/J-V-S-C/flashCards-go/internal/handlers"
 	"github.com/J-V-S-C/flashCards-go/internal/repository"
 	"github.com/J-V-S-C/flashCards-go/internal/service"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 func main() {
+	docs.SwaggerInfo.Title = "FlashCards API"
+	docs.SwaggerInfo.Description = "API para gerenciamento de decks e flashcards"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:3333"
+	docs.SwaggerInfo.BasePath = "/"
+	docs.SwaggerInfo.Schemes = []string{"http"}
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Erro ao carregar o arquivo .env")

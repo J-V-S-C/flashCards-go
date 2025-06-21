@@ -5,6 +5,7 @@ import (
 
 	"github.com/J-V-S-C/flashCards-go/internal/contracts"
 	"github.com/J-V-S-C/flashCards-go/internal/service"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type FlashcardHandler struct {
@@ -50,5 +51,6 @@ func (h *Handler) InitRoutes() http.Handler {
 	r := http.NewServeMux()
 	r.Handle("/flashcards/", http.StripPrefix("/flashcards", h.Flashcard.InitFlashcardRoutes()))
 	r.Handle("/decks/", http.StripPrefix("/decks", h.Deck.InitDeckRoutes()))
+	r.Handle("/swagger/", httpSwagger.WrapHandler)
 	return r
 }

@@ -1,0 +1,462 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/decks/": {
+            "get": {
+                "description": "Retorna uma lista com todos os decks",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Lista todos os decks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Deck"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Cria um novo deck com os dados fornecidos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Adiciona um novo deck",
+                "parameters": [
+                    {
+                        "description": "Deck a ser criado",
+                        "name": "deck",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Deck"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Deck"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            }
+        },
+        "/decks/{id}": {
+            "get": {
+                "description": "Retorna um deck pelo seu ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Busca deck por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do Deck",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Deck"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Atualiza os dados de um deck existente",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Atualiza um deck",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do Deck",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Novos dados do deck",
+                        "name": "deck",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Deck"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Deck"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Remove um deck pelo ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Deleta um deck",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do Deck",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mensagem de sucesso",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            }
+        },
+        "/flashcards/": {
+            "get": {
+                "description": "Retorna todos os flashcards disponíveis",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flashcards"
+                ],
+                "summary": "Lista todos os flashcards",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Flashcard"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Cria um novo flashcard com os dados fornecidos",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flashcards"
+                ],
+                "summary": "Adiciona um novo flashcard",
+                "parameters": [
+                    {
+                        "description": "Flashcard a ser criado",
+                        "name": "flashcard",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Flashcard"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Flashcard"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            }
+        },
+        "/flashcards/{id}": {
+            "get": {
+                "description": "Retorna um flashcard com base no ID fornecido",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flashcards"
+                ],
+                "summary": "Busca flashcard por ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do flashcard",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Flashcard"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Atualiza um flashcard existente pelo ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flashcards"
+                ],
+                "summary": "Atualiza flashcard",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do flashcard",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Dados atualizados",
+                        "name": "flashcard",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Flashcard"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Flashcard"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Remove um flashcard com base no ID fornecido",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "flashcards"
+                ],
+                "summary": "Remove flashcard",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID do flashcard",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.MsgResponseJSON"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrResponseJSON"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Deck": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "next_review_at": {
+                    "type": "string"
+                },
+                "total_cards": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Flashcard": {
+            "type": "object",
+            "properties": {
+                "deck_id": {
+                    "type": "integer"
+                },
+                "ease_factor": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "next_review_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.ErrResponseJSON": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.MsgResponseJSON": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,303 @@
+definitions:
+  models.Deck:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      next_review_at:
+        type: string
+      total_cards:
+        type: integer
+    type: object
+  models.Flashcard:
+    properties:
+      deck_id:
+        type: integer
+      ease_factor:
+        type: number
+      id:
+        type: integer
+      message:
+        type: string
+      name:
+        type: string
+      next_review_at:
+        type: string
+    type: object
+  utils.ErrResponseJSON:
+    properties:
+      error:
+        type: string
+    type: object
+  utils.MsgResponseJSON:
+    properties:
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /decks/:
+    get:
+      description: Retorna uma lista com todos os decks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Deck'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Lista todos os decks
+      tags:
+      - decks
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo deck com os dados fornecidos
+      parameters:
+      - description: Deck a ser criado
+        in: body
+        name: deck
+        required: true
+        schema:
+          $ref: '#/definitions/models.Deck'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Deck'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Adiciona um novo deck
+      tags:
+      - decks
+  /decks/{id}:
+    delete:
+      description: Remove um deck pelo ID
+      parameters:
+      - description: ID do Deck
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Mensagem de sucesso
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Deleta um deck
+      tags:
+      - decks
+    get:
+      description: Retorna um deck pelo seu ID
+      parameters:
+      - description: ID do Deck
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Deck'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Busca deck por ID
+      tags:
+      - decks
+    put:
+      consumes:
+      - application/json
+      description: Atualiza os dados de um deck existente
+      parameters:
+      - description: ID do Deck
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Novos dados do deck
+        in: body
+        name: deck
+        required: true
+        schema:
+          $ref: '#/definitions/models.Deck'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Deck'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Atualiza um deck
+      tags:
+      - decks
+  /flashcards/:
+    get:
+      description: Retorna todos os flashcards disponíveis
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Flashcard'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Lista todos os flashcards
+      tags:
+      - flashcards
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo flashcard com os dados fornecidos
+      parameters:
+      - description: Flashcard a ser criado
+        in: body
+        name: flashcard
+        required: true
+        schema:
+          $ref: '#/definitions/models.Flashcard'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Flashcard'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Adiciona um novo flashcard
+      tags:
+      - flashcards
+  /flashcards/{id}:
+    delete:
+      description: Remove um flashcard com base no ID fornecido
+      parameters:
+      - description: ID do flashcard
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.MsgResponseJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Remove flashcard
+      tags:
+      - flashcards
+    get:
+      description: Retorna um flashcard com base no ID fornecido
+      parameters:
+      - description: ID do flashcard
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Flashcard'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Busca flashcard por ID
+      tags:
+      - flashcards
+    put:
+      consumes:
+      - application/json
+      description: Atualiza um flashcard existente pelo ID
+      parameters:
+      - description: ID do flashcard
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dados atualizados
+        in: body
+        name: flashcard
+        required: true
+        schema:
+          $ref: '#/definitions/models.Flashcard'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Flashcard'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.ErrResponseJSON'
+      summary: Atualiza flashcard
+      tags:
+      - flashcards
+swagger: "2.0"
